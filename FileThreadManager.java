@@ -21,7 +21,10 @@ public class FileThreadManager {
             scnr.close();
             buffer.add(FLAG);
         } catch (FileNotFoundException e) {
-            System.out.println("No file of this name found. You might want to double check the spelling or your directory.");
+            System.out.println(
+                "No file of this name found. " + 
+                "You might want to double check the spelling or your directory."
+            );
             System.out.println(e);
             return;
         } catch (InterruptedException e) {
@@ -30,7 +33,8 @@ public class FileThreadManager {
 
     }
 
-    private void replaceDigitsWithText(SynchronizedBuffer<String> inputBuffer, SynchronizedBuffer<String> outputBuffer) {
+    private void replaceDigitsWithText(SynchronizedBuffer<String> inputBuffer,
+        SynchronizedBuffer<String> outputBuffer) {
         try {
             String line = inputBuffer.remove();
             while (line != FLAG) {
@@ -54,7 +58,9 @@ public class FileThreadManager {
         }
     }
 
-    private void reverseLineCharacters(SynchronizedBuffer<String> inputBuffer, SynchronizedBuffer<String> outputBuffer) {
+    private void reverseLineCharacters(SynchronizedBuffer<String> inputBuffer,
+        SynchronizedBuffer<String> outputBuffer) {
+
         try {
             String line = inputBuffer.remove();
             while (line != FLAG) {
@@ -70,6 +76,7 @@ public class FileThreadManager {
     }
 
     private void printLinesFromBuffer(SynchronizedBuffer<String> buffer) {
+
         try {
             String line = buffer.remove();
             while (line != FLAG) {
@@ -81,22 +88,34 @@ public class FileThreadManager {
         }
     }
 
-    public synchronized void fileParseThreadInitializer(SynchronizedBuffer<String> buffer) {
+    public synchronized void fileParseThreadInitializer(
+        SynchronizedBuffer<String> buffer) {
+
         Thread t = new Thread(() -> enqueueParsedLines(buffer));
         t.start();
     }
 
-    public synchronized void digitReplacementThreadInitializer(SynchronizedBuffer<String> inputBuffer, SynchronizedBuffer<String> outputBuffer) {
-        Thread t = new Thread(() -> replaceDigitsWithText(inputBuffer, outputBuffer));
+    public synchronized void digitReplacementThreadInitializer(
+        SynchronizedBuffer<String> inputBuffer, 
+        SynchronizedBuffer<String> outputBuffer) {
+
+        Thread t = new Thread(() -> replaceDigitsWithText(
+            inputBuffer, outputBuffer));
         t.start();
     }
 
-    public synchronized void characterReversalThreadInitializer(SynchronizedBuffer<String> inputBuffer, SynchronizedBuffer<String> outputBuffer) {
-        Thread t = new Thread(() -> reverseLineCharacters(inputBuffer, outputBuffer));
+    public synchronized void characterReversalThreadInitializer(
+        SynchronizedBuffer<String> inputBuffer,
+        SynchronizedBuffer<String> outputBuffer) {
+
+        Thread t = new Thread(() -> reverseLineCharacters(
+            inputBuffer, outputBuffer));
         t.start();
     }
 
-    public synchronized void linePrintingThreadInitializer(SynchronizedBuffer<String> buffer) {
+    public synchronized void linePrintingThreadInitializer(
+        SynchronizedBuffer<String> buffer) {
+
         Thread t = new Thread(() -> printLinesFromBuffer(buffer));
         t.start();
     }
